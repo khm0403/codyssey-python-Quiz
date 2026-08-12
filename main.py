@@ -30,6 +30,17 @@ def ask_number(prompt, low, high):
         print(f'⚠  {low}-{high} 범위를 벗어났습니다. 다시 입력하세요.')
 
 
+def ask_text(prompt):
+    """비어 있지 않은 문자열을 받을 때까지 계속 물어본다."""
+    while True:
+        text = input(prompt).strip()
+
+        if text:
+            return text
+
+        print('⚠  빈 입력입니다. 내용을 입력하세요.')
+
+
 class Quiz:
     """퀴즈 한 문제를 표현한다. (문제 / 선택지 4개 / 정답 번호)"""
 
@@ -184,8 +195,23 @@ class QuizGame:
         print('=' * 40)
 
     def add_quiz(self):
-        """새 퀴즈를 입력받아 목록에 추가한다."""
-        print('\n(아직 만들지 않은 기능입니다: 퀴즈 추가)')
+        """새 퀴즈를 입력받아 목록에 추가하고 파일에 저장한다."""
+        print('\n📌 새로운 퀴즈를 추가합니다.')
+
+        question = ask_text('문제를 입력하세요: ')
+
+        choices = []
+        for number in range(1, 5):
+            choices.append(ask_text(f'선택지 {number}: '))
+
+        answer = ask_number('정답 번호 (1-4): ', 1, 4)
+
+        self.quizzes.append(Quiz(question, choices, answer))
+
+        if self.save():
+            print(f'✅ 퀴즈가 추가되었습니다! (현재 총 {len(self.quizzes)}개)')
+        else:
+            print('⚠  목록에는 추가됐지만 파일 저장에 실패했습니다.')
 
     def show_list(self):
         """등록된 퀴즈 목록을 보여준다."""
