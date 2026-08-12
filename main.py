@@ -103,8 +103,14 @@ class QuizGame:
 
     def __init__(self):
         self.quizzes = default_quizzes()    # 퀴즈 객체들이 담긴 리스트
-        self.best_score = 0                 # 최고 점수 (0~100)
+        self.best_score = None              # 최고 점수 (아직 안 풀었으면 None)
         self.load()                         # 저장된 데이터가 있으면 덮어쓴다
+
+    def best_score_text(self):
+        """최고 점수를 사람이 읽을 문구로 바꿔서 돌려준다."""
+        if self.best_score is None:
+            return '기록 없음'
+        return f'{self.best_score}점'
 
     def load(self):
         """state.json에서 데이터를 불러온다. 실패하면 기본 퀴즈로 시작한다."""
@@ -119,17 +125,21 @@ class QuizGame:
             if not quizzes:
                 raise ValueError('저장된 퀴즈가 하나도 없습니다.')
 
+            best_score = data['best_score']
+            if best_score is not None:
+                best_score = int(best_score)
+
             self.quizzes = quizzes
-            self.best_score = int(data['best_score'])
+            self.best_score = best_score
             print(f'\n📂 저장된 데이터를 불러왔습니다. '
-                  f'(퀴즈 {len(self.quizzes)}개, 최고 점수 {self.best_score}점)')
+                  f'(퀴즈 {len(self.quizzes)}개, 최고 점수 {self.best_score_text()})')
 
         except FileNotFoundError:
             print(f'\n📂 저장 파일이 없어 기본 퀴즈 {len(self.quizzes)}개로 시작합니다.')
 
         except (json.JSONDecodeError, KeyError, TypeError, ValueError, OSError) as error:
             self.quizzes = default_quizzes()
-            self.best_score = 0
+            self.best_score = None
             print(f'\n⚠  저장 파일이 손상되었습니다. ({error})')
             print(f'📂 기본 퀴즈 {len(self.quizzes)}개로 복구합니다.')
 
@@ -192,7 +202,15 @@ class QuizGame:
         score = int(correct_count / total * 100)
         print('=' * 40)
         print(f'🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)')
+
+        if self.best_score is None or score > self.best_score:
+            self.best_score = score
+            print('🎉 새로운 최고 점수입니다!')
+        else:
+            print(f'   (최고 점수: {self.best_score}점)')
+
         print('=' * 40)
+        self.save()
 
     def add_quiz(self):
         """새 퀴즈를 입력받아 목록에 추가하고 파일에 저장한다."""
@@ -229,7 +247,11 @@ class QuizGame:
 
     def show_score(self):
         """최고 점수를 보여준다."""
-        print('\n(아직 만들지 않은 기능입니다: 점수 확인)')
+        if self.best_score is None:
+            print('\n⚠  아직 퀴즈를 푼 기록이 없습니다. 먼저 1번에서 퀴즈를 풀어보세요.')
+            return
+
+        print(f'\n🏆 최고 점수: {self.best_score}점')
 
     def run(self):
         """메뉴를 반복해서 보여주고, 선택한 기능을 실행한다."""
