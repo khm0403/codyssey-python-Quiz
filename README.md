@@ -89,11 +89,14 @@ python Quiz/
 ├── README.md                # 프로젝트 설명 문서
 ├── .gitignore               # Git 추적 제외 목록
 └── docs/
-    └── screenshots/         # 제출용 실행 화면 스크린샷
-        ├── menu.png
-        ├── play.png
-        ├── add_quiz.png
-        └── score.png
+    └── screenshots/         # 제출용 스크린샷
+        ├── menu.png         # 메뉴 화면
+        ├── play.png         # 퀴즈 풀기
+        ├── add_quiz.png     # 퀴즈 추가
+        ├── list.png         # 퀴즈 목록
+        ├── score.png        # 점수 확인
+        ├── dev_env.png      # 개발 환경 (Python / Git 버전)
+        └── git_graph.png    # 커밋 이력 그래프
 ```
 
 ### `main.py` 내부 구조
@@ -174,12 +177,51 @@ python Quiz/
 
 ## 7. 실행 화면
 
-| 화면 | 파일 |
-|---|---|
-| 메뉴 | `docs/screenshots/menu.png` |
-| 퀴즈 풀기 | `docs/screenshots/play.png` |
-| 퀴즈 추가 | `docs/screenshots/add_quiz.png` |
-| 점수 확인 | `docs/screenshots/score.png` |
+### 메뉴
+
+프로그램 실행 직후 화면입니다. 저장된 데이터가 있으면 불러온 결과를 함께 알려줍니다.
+
+![메뉴 화면](docs/screenshots/menu.png)
+
+### 퀴즈 풀기 (메뉴 1번)
+
+등록된 퀴즈를 순서대로 출제하고, 정답/오답을 즉시 알려준 뒤 최종 점수를 계산합니다.
+
+![퀴즈 풀기](docs/screenshots/play.png)
+
+### 퀴즈 추가 (메뉴 2번)
+
+문제, 선택지 4개, 정답 번호를 입력받아 등록하고 `state.json`에 저장합니다.
+
+![퀴즈 추가](docs/screenshots/add_quiz.png)
+
+### 퀴즈 목록 (메뉴 3번)
+
+등록된 퀴즈의 문제 문장을 번호와 함께 보여줍니다.
+
+![퀴즈 목록](docs/screenshots/list.png)
+
+### 점수 확인 (메뉴 4번)
+
+저장된 최고 점수를 보여줍니다.
+
+![점수 확인](docs/screenshots/score.png)
+
+---
+
+## 8. 개발 환경 및 커밋 이력
+
+### 개발 환경
+
+Python 3.14.7, Git 2.50.1 환경에서 개발했습니다.
+
+![개발 환경](docs/screenshots/dev_env.png)
+
+### 커밋 이력
+
+`feature/play` 브랜치에서 퀴즈 풀기 기능을 개발한 뒤 `main`에 병합했습니다.
+
+![커밋 이력 그래프](docs/screenshots/git_graph.png)
 
 ---
 
