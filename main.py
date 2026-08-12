@@ -156,7 +156,32 @@ class QuizGame:
 
     def play(self):
         """퀴즈를 출제하고 채점한다."""
-        print('\n(아직 만들지 않은 기능입니다: 퀴즈 풀기)')
+        if not self.quizzes:
+            print('\n⚠  등록된 퀴즈가 없습니다. 먼저 2번에서 퀴즈를 추가해 주세요.')
+            return
+
+        total = len(self.quizzes)
+        print(f'\n📝 퀴즈를 시작합니다! (총 {total}문제)')
+        print('-' * 40)
+
+        correct_count = 0
+        for number, quiz in enumerate(self.quizzes, start=1):
+            quiz.show(number)
+            user_answer = ask_number('정답 입력: ', 1, 4)
+
+            if quiz.is_correct(user_answer):
+                print('✅ 정답입니다!')
+                correct_count += 1
+            else:
+                correct_text = quiz.choices[quiz.answer - 1]
+                print(f'❌ 틀렸습니다. 정답은 {quiz.answer}번 ({correct_text})입니다.')
+
+            print('-' * 40)
+
+        score = int(correct_count / total * 100)
+        print('=' * 40)
+        print(f'🏆 결과: {total}문제 중 {correct_count}문제 정답! ({score}점)')
+        print('=' * 40)
 
     def add_quiz(self):
         """새 퀴즈를 입력받아 목록에 추가한다."""
