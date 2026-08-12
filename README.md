@@ -184,3 +184,7 @@ python Quiz/
 | 퀴즈 풀기 | `docs/screenshots/play.png` |
 | 퀴즈 추가 | `docs/screenshots/add_quiz.png` |
 | 점수 확인 | `docs/screenshots/score.png` |
+
+---
+
+> clone 실습: 이 줄은 원격 저장소를 복제한 폴더에서 추가한 뒤 push 했습니다.
