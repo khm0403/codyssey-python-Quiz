@@ -215,7 +215,17 @@ class QuizGame:
 
     def show_list(self):
         """등록된 퀴즈 목록을 보여준다."""
-        print('\n(아직 만들지 않은 기능입니다: 퀴즈 목록)')
+        if not self.quizzes:
+            print('\n⚠  등록된 퀴즈가 없습니다. 먼저 2번에서 퀴즈를 추가해 주세요.')
+            return
+
+        print(f'\n📋 등록된 퀴즈 목록 (총 {len(self.quizzes)}개)')
+        print('-' * 40)
+
+        for number, quiz in enumerate(self.quizzes, start=1):
+            print(f'[{number}] {quiz.question}')
+
+        print('-' * 40)
 
     def show_score(self):
         """최고 점수를 보여준다."""
