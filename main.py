@@ -274,9 +274,20 @@ class QuizGame:
 
 
 def main():
-    """프로그램의 시작점."""
+    """프로그램의 시작점.
+
+    Ctrl+C(KeyboardInterrupt)나 입력 종료(EOFError)가 발생해도
+    오류 화면 없이 저장 후 안전하게 종료한다.
+    """
     game = QuizGame()
-    game.run()
+
+    try:
+        game.run()
+    except (KeyboardInterrupt, EOFError):
+        print('\n\n⚠  강제 종료 신호를 받았습니다.')
+        if game.save():
+            print('💾 지금까지의 내용을 저장했습니다.')
+        print('게임을 종료합니다. 안녕히 가세요!')
 
 
 if __name__ == '__main__':
