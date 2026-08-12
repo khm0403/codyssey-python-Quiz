@@ -1,0 +1,13 @@
+# 파이썬이 자동으로 만드는 캐시 폴더
+__pycache__/
+*.pyc
+
+# 실행 중 생성되는 데이터 파일 (없으면 기본 퀴즈로 시작하도록 구현)
+state.json
+
+# 개인 메모 / 에디터 설정
+GUIDE.md
+.claude/
+.vscode/
+.idea/
+.DS_Store
