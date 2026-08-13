@@ -3,6 +3,7 @@
 import json
 
 STATE_FILE = 'state.json'   # 프로젝트 루트에 저장되는 데이터 파일
+CHOICE_COUNT = 4            # 퀴즈 한 문제당 선택지 개수
 
 
 def ask_number(prompt, low, high):
@@ -42,12 +43,12 @@ def ask_text(prompt):
 
 
 class Quiz:
-    """퀴즈 한 문제를 표현한다. (문제 / 선택지 4개 / 정답 번호)"""
+    """퀴즈 한 문제를 표현한다. (문제 / 선택지 / 정답 번호)"""
 
     def __init__(self, question, choices, answer):
         self.question = question    # 문제 문장 (문자열)
-        self.choices = choices      # 선택지 4개 (리스트)
-        self.answer = answer        # 정답 번호 1~4 (정수)
+        self.choices = choices      # 선택지 CHOICE_COUNT개 (리스트)
+        self.answer = answer        # 정답 번호 1~CHOICE_COUNT (정수)
 
     def show(self, number):
         """문제 번호와 함께 문제와 선택지를 출력한다."""
@@ -74,7 +75,7 @@ def quiz_from_dict(data):
     choices = data['choices']
     answer = int(data['answer'])
 
-    if len(choices) != 4 or not 1 <= answer <= 4:
+    if len(choices) != CHOICE_COUNT or not 1 <= answer <= CHOICE_COUNT:
         raise ValueError('퀴즈 형식이 올바르지 않습니다.')
 
     return Quiz(question, choices, answer)
@@ -188,7 +189,7 @@ class QuizGame:
         correct_count = 0
         for number, quiz in enumerate(self.quizzes, start=1):
             quiz.show(number)
-            user_answer = ask_number('정답 입력: ', 1, 4)
+            user_answer = ask_number('정답 입력: ', 1, CHOICE_COUNT)
 
             if quiz.is_correct(user_answer):
                 print('✅ 정답입니다!')
@@ -219,10 +220,10 @@ class QuizGame:
         question = ask_text('문제를 입력하세요: ')
 
         choices = []
-        for number in range(1, 5):
+        for number in range(1, CHOICE_COUNT + 1):
             choices.append(ask_text(f'선택지 {number}: '))
 
-        answer = ask_number('정답 번호 (1-4): ', 1, 4)
+        answer = ask_number(f'정답 번호 (1-{CHOICE_COUNT}): ', 1, CHOICE_COUNT)
 
         self.quizzes.append(Quiz(question, choices, answer))
 
@@ -251,7 +252,7 @@ class QuizGame:
             print('\n⚠  아직 퀴즈를 푼 기록이 없습니다. 먼저 1번에서 퀴즈를 풀어보세요.')
             return
 
-        print(f'\n🏆 최고 점수: {self.best_score}점')
+        print(f'\n🏆 최고 점수: {self.best_score_text()}')
 
     def run(self):
         """메뉴를 반복해서 보여주고, 선택한 기능을 실행한다."""
