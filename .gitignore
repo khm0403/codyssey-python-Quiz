@@ -5,9 +5,8 @@ __pycache__/
 # 실행 중 생성되는 데이터 파일 (없으면 기본 퀴즈로 시작하도록 구현)
 state.json
 
-# 개인 메모 / 에디터 설정
-GUIDE.md
-.claude/
+# 에디터 / 도구 설정
 .vscode/
 .idea/
+.claude/
 .DS_Store
